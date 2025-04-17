@@ -1,0 +1,36 @@
+body {
+    margin: 0px 30px;
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #404040;
+    color: white;
+}
+
+button {
+    margin: 10px 0;
+    padding: 10px 25px;
+    background-color: lightblue;
+    color: black;
+    border: 0px;
+    border-radius: 10px;
+}
+
+textarea {
+    border-radius: 20px;
+    padding: 10px;
+}
+
+select {
+    padding: 3px 10px;
+    border-radius: 10px;
+}
+
+a {
+    color: lightblue
+}
+
+p {
+    margin: auto;
+    padding-bottom: 20px;
+    max-width: 700px;
+}

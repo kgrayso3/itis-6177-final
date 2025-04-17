@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Azure TTS Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Azure Text to Speech REST API Demo</h1>
+  <p>This demo uses the <a href="https://azure.microsoft.com/en-us/products/ai-services/ai-speech/">Azure AI Speech</a> Text-to-Speech REST API. It allows for selection of language and neural voice preference, then speaks aloud the text entered. For the purposes of this demo, length of text input has been limited to 100 characters to respect the limitations of the API free tier.</p>
+
+  <label for="languageSelect">Language:</label>
+  <select id="languageSelect" onchange="updateVoices()">
+    <option value="en-US">English (US)</option>
+    <option value="en-GB">English (UK)</option>
+    <option value="es-ES">Spanish (Spain)</option>
+    <option value="ja-JP">Japanese</option>
+  </select>
+
+  <br><br>
+
+  <label for="voiceSelect">Voice:</label>
+  <select id="voiceSelect"></select>
+
+  <br><br>
+
+  <textarea id="textInput" rows="4" cols="50" maxlength="100">Hello world!</textarea><br>
+  <button onclick="speak()">Speak</button>
+  <br/><br/>
+  <audio id="player" controls></audio>
+
+  <script>
+    const voicesByLang = {
+      'en-US': [
+        { name: 'en-US-JennyNeural', label: 'Jenny (Female)' },
+        { name: 'en-US-GuyNeural', label: 'Guy (Male)' }
+      ],
+      'en-GB': [
+        { name: 'en-GB-LibbyNeural', label: 'Libby (Female)' },
+        { name: 'en-GB-RyanNeural', label: 'Ryan (Male)' }
+      ],
+     'es-ES': [  // New
+        { name: 'es-ES-ElviraNeural', label: 'Elvira (Female)' },
+        { name: 'es-ES-AlvaroNeural', label: 'Álvaro (Male)' }
+    ],
+      'ja-JP': [
+        { name: 'ja-JP-NanamiNeural', label: 'Nanami (Female)' },
+        { name: 'ja-JP-KeitaNeural', label: 'Keita (Male)' }
+      ]
+    };
+
+    function updateVoices() {
+      const lang = document.getElementById('languageSelect').value;
+      const voiceSelect = document.getElementById('voiceSelect');
+      voiceSelect.innerHTML = '';
+
+      voicesByLang[lang].forEach(voice => {
+        const opt = document.createElement('option');
+        opt.value = voice.name;
+        opt.textContent = voice.label;
+        voiceSelect.appendChild(opt);
+      });
+    }
+
+    async function speak() {
+      const text = document.getElementById('textInput').value;
+      const voice = document.getElementById('voiceSelect').value;
+
+      const response = await fetch('/api/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, voice })
+      });
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = document.getElementById('player');
+      audio.src = url;
+      audio.play();
+    }
+
+    updateVoices();
+  </script>
+</body>
+</html>
