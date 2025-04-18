@@ -9,7 +9,27 @@ app.use(express.static('public'));
 
 app.post('/api/speak', async (req, res) => {
   const { text, voice } = req.body;
+
   if (!text || !voice) return res.status(400).send('Missing text or voice');
+
+  if (typeof text !== 'string' || text.trim().length === 0 || text.length > 100) {
+    return res.status(400).send('Invalid or too long text input (max 100 characters).');
+  }
+
+  if (/[<>]/.test(text)) {
+    return res.status(400).send('Text contains forbidden characters like < or >.');
+  }
+
+  const allowedVoices = [
+    'en-US-JennyNeural', 'en-US-GuyNeural',
+    'en-GB-LibbyNeural', 'en-GB-RyanNeural',
+    'es-ES-ElviraNeural', 'es-ES-AlvaroNeural',
+    'ja-JP-NanamiNeural', 'ja-JP-KeitaNeural'
+  ];
+
+  if (!allowedVoices.includes(voice)) {
+    return res.status(400).send('Unsupported voice selection.');
+  }
 
   try {
     const audioBuffer = await synthesizeSpeech(text, voice);
