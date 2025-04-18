@@ -123,7 +123,7 @@ All input is sanitized based on the following rules:
 
 ## Testing with the Browser UI 
 
-1. Visit `http://64.225.10.109:3000/` in your browser of choice 
+1. Visit [http://64.225.10.109:3000/](http://64.225.10.109:3000/) in your browser of choice 
 2. Select your language and voice from the dropdowns 
 3. Type your text into the text box (keeping in mind that it must be 100 characters or less). 
 4. Click the "Speak" button. 
