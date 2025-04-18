@@ -53,7 +53,7 @@ Convert a text string into an MP3 audio stream using a specified Azure neural vo
 
 All input is sanitized based on the following rules:
 
-### Text
+### Text String
 
 - Required (empty strings are not accepted) 
 - Maximum of 100 characters (to allow for multiple tests without concern of hitting the Azure API free tier limits).
